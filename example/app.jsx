@@ -1,9 +1,9 @@
 import React from "react";
-import ReactDOM from "react-dom";
-import Avatar from "../src/avatar.jsx";
+import { createRoot } from "react-dom/client";
+import Avatar from "../lib/react-avatar";
 
 class App extends React.Component {
-  constructor(props) {
+  constructor (props) {
     super(props);
     const src = SOURCE_PATH + "/einshtein.jpg";
     this.state = {
@@ -160,4 +160,4 @@ class App extends React.Component {
   }
 }
 
-ReactDOM.render(<App />, document.getElementById("root"));
+createRoot(document.getElementById("root")).render(<App />);

@@ -1,6 +1,6 @@
 import React from "react";
 import Konva from "konva/lib/Core";
-import EXIF from "exif-js";
+import ExifReader from "exifreader";
 import LoadImage from "blueimp-load-image";
 import "konva/lib/shapes/Image";
 import "konva/lib/shapes/Circle";
@@ -24,11 +24,11 @@ class Avatar extends React.Component {
     exportMimeType: "image/png",
     exportQuality: 1.0,
     mobileScaleSpeed: 0.5, // experimental
-    onClose: () => {},
-    onCrop: () => {},
-    onFileLoad: () => {},
-    onImageLoad: () => {},
-    onBeforeFileLoad: () => {},
+    onClose: () => { },
+    onCrop: () => { },
+    onFileLoad: () => { },
+    onImageLoad: () => { },
+    onBeforeFileLoad: () => { },
     label: "Choose a file",
     labelStyle: {
       fontSize: "1.25em",
@@ -46,7 +46,7 @@ class Avatar extends React.Component {
     },
   };
 
-  constructor(props) {
+  constructor (props) {
     super(props);
     const containerId = this.generateHash("avatar_container");
     const loaderId = this.generateHash("avatar_loader");
@@ -195,18 +195,25 @@ class Avatar extends React.Component {
     this.onFileLoadCallback(file);
 
     const ref = this;
-    EXIF.getData(file, function () {
-      let exifOrientation = EXIF.getTag(this, "Orientation");
-      LoadImage(
-        file,
-        function (image, data) {
-          ref.setState({ image, file, showLoader: false }, () => {
-            ref.init();
-          });
-        },
-        { orientation: exifOrientation, meta: true }
+    let exifOrientation = 1;
+    ExifReader.load(file)
+      .then(
+        tags => exifOrientation = tags["Orientation"]?.value || 1,
+        error => console.warn('Error reading exif data, using defaults', error)
+      )
+      .finally(
+        () => {
+          LoadImage(
+            file,
+            function (image, data) {
+              ref.setState({ image, file, showLoader: false }, () => {
+                ref.init();
+              });
+            },
+            { orientation: exifOrientation, meta: true }
+          )
+        }
       );
-    });
   }
 
   onCloseClick() {
@@ -362,13 +369,13 @@ class Avatar extends React.Component {
       const x = isLeftCorner()
         ? calcLeft()
         : isRightCorner()
-        ? calcRight()
-        : crop.x();
+          ? calcRight()
+          : crop.x();
       const y = isTopCorner()
         ? calcTop()
         : isBottomCorner()
-        ? calcBottom()
-        : crop.y();
+          ? calcBottom()
+          : crop.y();
       moveResizer(x, y);
       crop.setFillPatternOffset({ x: x / this.scale, y: y / this.scale });
       crop.x(x);
@@ -387,7 +394,7 @@ class Avatar extends React.Component {
         if (dragEvt.evt.type !== "touchmove") return;
         const scaleY =
           dragEvt.evt.changedTouches["0"].pageY -
-            evt.evt.changedTouches["0"].pageY || 0;
+          evt.evt.changedTouches["0"].pageY || 0;
         onScaleCallback(scaleY * this.mobileScaleSpeed);
       });
     });
