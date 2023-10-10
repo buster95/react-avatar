@@ -1,4 +1,4 @@
-# react-avatar-edit
+# react-avatar-clip
 
 👤 Load, crop and preview avatar with ReactJS component
 
@@ -8,9 +8,9 @@
 - A lot of customization
 - Powered with KonvaJS
 
-<a href="https://www.npmjs.com/package/react-avatar-edit"><img alt="Downloads" src="https://img.shields.io/badge/npm-react--avatar--edit-orange"></a>
-<a href="https://www.npmjs.com/package/react-avatar-edit"><img alt="Downloads" src="https://img.shields.io/npm/v/react-avatar-edit"></a>
-<a href="https://www.npmjs.com/package/react-avatar-edit"><img alt="Downloads" src="https://img.shields.io/npm/dm/react-avatar-edit"></a>
+<a href="https://www.npmjs.com/package/react-avatar-clip"><img alt="Downloads" src="https://img.shields.io/badge/npm-react--avatar--clip-orange"></a>
+<a href="https://www.npmjs.com/package/react-avatar-clip"><img alt="Downloads" src="https://img.shields.io/npm/v/react-avatar-clip"></a>
+<a href="https://www.npmjs.com/package/react-avatar-clip"><img alt="Downloads" src="https://img.shields.io/npm/dm/react-avatar-clip"></a>
 
 ## Demo
 
@@ -20,14 +20,20 @@
 
 ## Install
 
-`npm i react-avatar-edit`
+### Using npm
+
+`npm i react-avatar-clip`
+
+### Using yarn
+
+`yarn add react-avatar-clip`
 
 ## Usage
 
 ```javascript
 import React from "react";
 import ReactDOM from "react-dom";
-import Avatar from "react-avatar-edit";
+import Avatar from "react-avatar-clip";
 
 class App extends React.Component {
   constructor(props) {
